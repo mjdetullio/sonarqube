@@ -41,9 +41,10 @@ public class FakeBaseIdProvider implements BaseIdentityProvider {
     }
     String[] userInfos = userInfoProperty.split(",");
     context.authenticate(UserIdentity.builder()
-      .setId(userInfos[0])
-      .setName(userInfos[1])
-      .setEmail(userInfos[2])
+      .setLogin(userInfos[0])
+      .setProviderId(userInfos[1])
+      .setName(userInfos[2])
+      .setEmail(userInfos[3])
       .build());
 
     try {
