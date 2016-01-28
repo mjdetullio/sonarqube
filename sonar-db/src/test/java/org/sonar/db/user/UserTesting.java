@@ -19,6 +19,8 @@
  */
 package org.sonar.db.user;
 
+import java.util.Date;
+
 import static org.apache.commons.lang.RandomStringUtils.randomAlphanumeric;
 import static org.apache.commons.lang.math.RandomUtils.nextLong;
 
@@ -34,8 +36,13 @@ public class UserTesting {
       .setName(name)
       .setEmail(email)
       .setLogin(login)
+      .setScmAccounts(randomAlphanumeric(40))
       .setExternalIdentity(login)
       .setExternalIdentityProvider("sonarqube")
+      .setRememberToken(randomAlphanumeric(500))
+      .setRememberTokenExpiresAt(new Date(nextLong()))
+      .setSalt(randomAlphanumeric(40))
+      .setCryptedPassword(randomAlphanumeric(40))
       .setCreatedAt(nextLong())
       .setUpdatedAt(nextLong());
   }
