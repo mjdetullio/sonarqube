@@ -129,6 +129,8 @@ public final class RegisterNewMeasureFilters {
         fields.add("nameSearch=" + criterion.getTextValue());
       } else if ("key".equals(criterion.getFamily())) {
         fields.add("keySearch=" + criterion.getTextValue());
+      } else if ("keyRegex".equals(criterion.getFamily())) {
+        fields.add("keySearchRegex=" + criterion.getTextValue());
       } else if ("language".equals(criterion.getFamily())) {
         fields.add("languages=" + criterion.getTextValue());
       } else if ("date".equals(criterion.getFamily())) {

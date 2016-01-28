@@ -20,6 +20,8 @@
 package org.sonar.server.measure;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.sonar.api.server.ServerSide;
@@ -30,7 +32,10 @@ import org.sonar.db.component.ResourceDao;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @ServerSide
 public class MeasureFilterExecutor {
@@ -71,7 +76,25 @@ public class MeasureFilterExecutor {
       DbUtils.closeQuietly(connection);
     }
 
-    return rows;
+    return filterByResourceKeyRegex(filter, rows);
+  }
+
+  private List<MeasureFilterRow> filterByResourceKeyRegex(MeasureFilter filter, List<MeasureFilterRow> rows) {
+    String regex = filter.getResourceKeyRegex();
+    if (Strings.isNullOrEmpty(regex)) {
+      return rows;
+    }
+
+    Pattern pattern = Pattern.compile(regex);
+
+    // Current list can be immutable when sorted, so build a new list instead of using iterator.remove()
+    List<MeasureFilterRow> filteredRows = Lists.newArrayList();
+    for (MeasureFilterRow row : rows) {
+      if (pattern.matcher(row.getResourceKey()).matches()) {
+        filteredRows.add(row);
+      }
+    }
+    return filteredRows;
   }
 
   private void prepareContext(MeasureFilterContext context, MeasureFilter filter, SqlSession session) {

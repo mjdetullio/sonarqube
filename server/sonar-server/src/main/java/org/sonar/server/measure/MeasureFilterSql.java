@@ -96,7 +96,7 @@ class MeasureFilterSql {
 
   private String generateSql() {
     StringBuilder sb = new StringBuilder(1000);
-    sb.append("SELECT s.id, s.project_id, s.root_project_id, ");
+    sb.append("SELECT s.id, s.project_id, s.root_project_id, p.kee, ");
     sb.append(filter.sort().column());
     sb.append(" FROM snapshots s INNER JOIN projects p ON s.project_id=p.id ");
 
@@ -257,8 +257,8 @@ class MeasureFilterSql {
   static class TextSortRowProcessor extends RowProcessor {
     @Override
     MeasureFilterRow fetch(ResultSet rs) throws SQLException {
-      MeasureFilterRow row = new MeasureFilterRow(rs.getLong(1), rs.getLong(2), rs.getLong(3));
-      row.setSortText(rs.getString(4));
+      MeasureFilterRow row = new MeasureFilterRow(rs.getLong(1), rs.getLong(2), rs.getLong(3), rs.getString(4));
+      row.setSortText(rs.getString(5));
       return row;
     }
 
@@ -302,8 +302,8 @@ class MeasureFilterSql {
 
     @Override
     MeasureFilterRow fetch(ResultSet rs) throws SQLException {
-      MeasureFilterRow row = new MeasureFilterRow(rs.getLong(1), rs.getLong(2), rs.getLong(3));
-      double value = rs.getDouble(4);
+      MeasureFilterRow row = new MeasureFilterRow(rs.getLong(1), rs.getLong(2), rs.getLong(3), rs.getString(5));
+      double value = rs.getDouble(5);
       if (!rs.wasNull()) {
         row.setSortDouble(value);
       }
@@ -331,8 +331,8 @@ class MeasureFilterSql {
 
     @Override
     MeasureFilterRow fetch(ResultSet rs) throws SQLException {
-      MeasureFilterRow row = new MeasureFilterRow(rs.getLong(1), rs.getLong(2), rs.getLong(3));
-      row.setSortDate(rs.getTimestamp(4).getTime());
+      MeasureFilterRow row = new MeasureFilterRow(rs.getLong(1), rs.getLong(2), rs.getLong(3), rs.getString(4));
+      row.setSortDate(rs.getTimestamp(5).getTime());
       return row;
     }
     @Override
@@ -350,8 +350,8 @@ class MeasureFilterSql {
 
     @Override
     MeasureFilterRow fetch(ResultSet rs) throws SQLException {
-      MeasureFilterRow row = new MeasureFilterRow(rs.getLong(1), rs.getLong(2), rs.getLong(3));
-      row.setSortDate(rs.getLong(4));
+      MeasureFilterRow row = new MeasureFilterRow(rs.getLong(1), rs.getLong(2), rs.getLong(3), rs.getString(4));
+      row.setSortDate(rs.getLong(5));
       return row;
     }
 

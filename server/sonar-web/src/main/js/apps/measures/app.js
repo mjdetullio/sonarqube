@@ -143,6 +143,14 @@ var NavigatorApp = new Marionette.Application(),
           type: StringFilterView,
           enabled: false,
           optional: true
+        }),
+
+        new BaseFilters.Filter({
+          name: translate('measure_filter.criteria.key_matches_regex'),
+          property: 'keySearchRegex',
+          type: StringFilterView,
+          enabled: false,
+          optional: true
         })
       ]);
 

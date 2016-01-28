@@ -25,14 +25,16 @@ public class MeasureFilterRow {
   private final long snapshotId;
   private final long resourceId;
   private final long resourceRootId;
+  private final String resourceKey;
   private String sortText = null;
   private Long sortDate = null;
   private Double sortDouble = null;
 
-  MeasureFilterRow(long snapshotId, long resourceId, long resourceRootId) {
+  MeasureFilterRow(long snapshotId, long resourceId, long resourceRootId, String resourceKey) {
     this.snapshotId = snapshotId;
     this.resourceId = resourceId;
     this.resourceRootId = resourceRootId;
+    this.resourceKey = resourceKey;
   }
 
   public long getSnapshotId() {
@@ -45,6 +47,10 @@ public class MeasureFilterRow {
 
   public long getResourceRootId() {
     return resourceRootId;
+  }
+
+  public String getResourceKey() {
+    return resourceKey;
   }
 
   public String getSortText() {

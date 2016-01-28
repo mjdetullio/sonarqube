@@ -45,6 +45,7 @@ public class MeasureFilter {
   private List<String> resourceScopes = Collections.emptyList();
   private List<String> resourceQualifiers = Collections.emptyList();
   private String resourceKey = null;
+  private String resourceKeyRegex = null;
   private String resourceName = null;
   private Date fromDate = null;
   private Date toDate = null;
@@ -115,6 +116,15 @@ public class MeasureFilter {
 
   public MeasureFilter setResourceKey(String s) {
     this.resourceKey = s;
+    return this;
+  }
+
+  public String getResourceKeyRegex() {
+    return resourceKeyRegex;
+  }
+
+  public MeasureFilter setResourceKeyRegex(String s) {
+    this.resourceKeyRegex = s;
     return this;
   }
 

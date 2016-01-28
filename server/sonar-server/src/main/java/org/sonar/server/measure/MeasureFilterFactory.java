@@ -67,6 +67,7 @@ public class MeasureFilterFactory {
     }
     filter.setResourceName(toString(properties.get("nameSearch")));
     filter.setResourceKey((String) properties.get("keySearch"));
+    filter.setResourceKeyRegex((String) properties.get("keySearchRegex"));
     String onFavourites = (String) properties.get("onFavourites");
     if (onFavourites != null) {
       filter.setUserFavourites(Boolean.valueOf(onFavourites));

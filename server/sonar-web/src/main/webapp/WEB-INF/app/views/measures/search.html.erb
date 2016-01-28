@@ -80,6 +80,7 @@
       <% end %>
       { key: 'onFavourites', value: <%= @filter.criteria['onFavourites']=='true' -%> },
       { key: 'keySearch', value: '<%= escape_javascript @filter.criteria['keySearch'] -%>' },
+      { key: 'keySearchRegex', value: '<%= escape_javascript @filter.criteria['keySearchRegex'] -%>' },
 
       <% for i in 1..3 %>
         <% unless @filter.criteria("c#{i}_metric").blank? %>
