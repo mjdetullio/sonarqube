@@ -34,12 +34,14 @@ public class UserIdentityTest {
   @Test
   public void create_user() throws Exception {
     UserIdentity underTest = UserIdentity.builder()
-      .setId("john")
+      .setProviderId("john")
+      .setLogin("1234")
       .setName("John")
       .setEmail("john@email.com")
       .build();
 
-    assertThat(underTest.getId()).isEqualTo("john");
+    assertThat(underTest.getProviderId()).isEqualTo("john");
+    assertThat(underTest.getLogin()).isEqualTo("1234");
     assertThat(underTest.getName()).isEqualTo("John");
     assertThat(underTest.getEmail()).isEqualTo("john@email.com");
   }
@@ -47,7 +49,8 @@ public class UserIdentityTest {
   @Test
   public void create_user_without_email() throws Exception {
     UserIdentity underTest = UserIdentity.builder()
-      .setId("john")
+      .setProviderId("john")
+      .setLogin("1234")
       .setName("John")
       .build();
 
@@ -59,6 +62,43 @@ public class UserIdentityTest {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("User id must not be blank");
     UserIdentity.builder()
+      .setLogin("1234")
+      .setName("John")
+      .setEmail("john@email.com")
+      .build();
+  }
+
+  @Test
+  public void fail_when_login_is_empty() throws Exception {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("User login must not be blank");
+    UserIdentity.builder()
+      .setProviderId("john")
+      .setLogin("")
+      .setName("John")
+      .setEmail("john@email.com")
+      .build();
+  }
+
+  @Test
+  public void fail_when_login_is_too_long() throws Exception {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("User login size is incorrect (Between 3 and 255 characters)");
+    UserIdentity.builder()
+      .setProviderId("john")
+      .setLogin(Strings.repeat("1", 256))
+      .setName("John")
+      .setEmail("john@email.com")
+      .build();
+  }
+
+  @Test
+  public void fail_when_login_is_too_small() throws Exception {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("User login size is incorrect (Between 3 and 255 characters)");
+    UserIdentity.builder()
+      .setProviderId("john")
+      .setLogin("12")
       .setName("John")
       .setEmail("john@email.com")
       .build();
@@ -69,29 +109,32 @@ public class UserIdentityTest {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("User id must not be blank");
     UserIdentity.builder()
-      .setId("")
+      .setProviderId("")
+      .setLogin("1234")
       .setName("John")
       .setEmail("john@email.com")
       .build();
   }
 
   @Test
-  public void fail_when_id_is_loo_long() throws Exception {
+  public void fail_when_id_is_too_long() throws Exception {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("User id size is incorrect (Between 3 and 255 characters)");
     UserIdentity.builder()
-      .setId(Strings.repeat("1", 256))
+      .setProviderId(Strings.repeat("1", 256))
+      .setLogin("1234")
       .setName("John")
       .setEmail("john@email.com")
       .build();
   }
 
   @Test
-  public void fail_when_id_is_loo_small() throws Exception {
+  public void fail_when_id_is_too_small() throws Exception {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("User id size is incorrect (Between 3 and 255 characters)");
     UserIdentity.builder()
-      .setId("ab")
+      .setProviderId("ab")
+      .setLogin("1234")
       .setName("John")
       .setEmail("john@email.com")
       .build();
@@ -102,7 +145,8 @@ public class UserIdentityTest {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("User name must not be blank");
     UserIdentity.builder()
-      .setId("john")
+      .setProviderId("john")
+      .setLogin("1234")
       .setEmail("john@email.com")
       .build();
   }
@@ -112,7 +156,8 @@ public class UserIdentityTest {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("User name must not be blank");
     UserIdentity.builder()
-      .setId("john")
+      .setProviderId("john")
+      .setLogin("1234")
       .setName("")
       .setEmail("john@email.com")
       .build();
@@ -123,7 +168,8 @@ public class UserIdentityTest {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("User name size is too big (200 characters max)");
     UserIdentity.builder()
-      .setId("john")
+      .setProviderId("john")
+      .setLogin("1234")
       .setName(Strings.repeat("1", 201))
       .setEmail("john@email.com")
       .build();
@@ -134,7 +180,8 @@ public class UserIdentityTest {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("User email size is too big (100 characters max)");
     UserIdentity.builder()
-      .setId("john")
+      .setProviderId("john")
+      .setLogin("1234")
       .setName("John")
       .setEmail(Strings.repeat("1", 101))
       .build();
